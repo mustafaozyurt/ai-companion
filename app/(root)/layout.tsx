@@ -10,7 +10,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Sidebar />
       </div>
 
-      <main className="md:pl-20 pt-16 h-full">{children}</main>
+      <main className="md:pl-20 pt-16 h-full bg-secondary">{children}</main>
     </div>
   );
 };
