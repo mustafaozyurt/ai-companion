@@ -5,6 +5,8 @@ import * as z from "zod";
 import { Companion, category } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { Wand2 } from "lucide-react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -14,7 +16,7 @@ import {
   FormMessage,
   FormDescription,
   FormLabel,
-} from "./ui/form";
+} from "../../../../../../components/ui/form";
 import {
   Select,
   SelectContent,
@@ -23,11 +25,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Separator } from "./ui/separator";
-import { ImageUpload } from "./image-upload";
-import { Input } from "./ui/input";
+import { Separator } from "../../../../../../components/ui/separator";
+import { ImageUpload } from "../../../../../../components/image-upload";
+import { Input } from "../../../../../../components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 interface CompanionFormProps {
   initialData: Companion | null;
@@ -77,6 +80,9 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
   let instructions = "instructions" as const;
   let seed = "seed" as const;
 
+  const router = useRouter();
+  const { toast } = useToast();
+
   const generalInformations = [
     {
       name: name,
@@ -123,9 +129,29 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
 
   const isLoading = form.formState.isSubmitting;
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      if (initialData) {
+        await axios.patch(`/api/companion/${initialData.id}`, values);
+      } else {
+        await axios.post("/api/companion", values);
+      }
+
+      toast({
+        description: "Success.",
+        duration: 3000,
+      });
+
+      router.refresh();
+      router.push("/");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Something went wrong.",
+        duration: 3000,
+      });
+    }
+  };
 
   return (
     <div className="p-4 space-y-8 max-w-3xl mx-auto bg-secondary">

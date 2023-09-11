@@ -1,4 +1,4 @@
-import CompanionForm from "@/components/companion-form";
+import CompanionForm from "@/app/(root)/(routes)/companion/[companionId]/components/companion-form";
 import prismadb from "@/lib/prismadb";
 import { Companion, category } from "@prisma/client";
 
@@ -14,6 +14,8 @@ const CompanionIdPage = async ({ params }: CompanionIdPageProps) => {
       id: params.companionId,
     },
   });
+
+  console.log(companion);
 
   const categories: category[] = await prismadb.category.findMany();
 
