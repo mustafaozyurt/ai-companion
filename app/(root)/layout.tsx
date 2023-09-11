@@ -3,7 +3,7 @@ import Sidebar from "@/components/sidebar";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full">
+    <div className="bg-secondary">
       <Navbar />
 
       <div className="hidden md:flex mt-16 w-20 flex-col fixed inset-y-0">
