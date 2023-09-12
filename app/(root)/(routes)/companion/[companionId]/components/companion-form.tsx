@@ -117,13 +117,13 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       name: "",
       description: "",
       instructions: "",
       seed: "",
       src: "",
-      categoryId: "",
+      categoryId: undefined,
     },
   });
 
