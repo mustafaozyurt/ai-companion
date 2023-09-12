@@ -44,7 +44,7 @@ const Chat = async ({ params }: ChatProps) => {
   }
 
   return (
-    <div className="flex items-center justify-center pt-6">
+    <div className="flex items-center justify-center h-full pt-4">
       <ChatClient companion={companion} />
     </div>
   );
