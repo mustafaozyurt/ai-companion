@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { useProModal } from "@/hooks/use-pro-modal";
 import {
   Dialog,
@@ -10,9 +12,31 @@ import {
 } from "./ui/dialog";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
+import { useToast } from "./ui/use-toast";
+import axios from "axios";
 
 export const ProModal = () => {
   const proModal = useProModal();
+  const { toast } = useToast();
+
+  const [loading, setLoading] = useState(false);
+
+  const onSubscribe = async () => {
+    try {
+      setLoading(true);
+
+      const response = await axios.get("/api/stripe");
+
+      window.location.href = response.data.url;
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Something Went Wrong",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Dialog open={proModal.isOpen} onOpenChange={proModal.onClose}>
@@ -31,7 +55,12 @@ export const ProModal = () => {
             9<span className="text-sm font-normal">.99$ / mo</span>
           </p>
 
-          <Button variant={"premium"} children={"Subscribe"} />
+          <Button
+            disabled={loading}
+            variant={"premium"}
+            children={"Subscribe"}
+            onClick={onSubscribe}
+          />
         </div>
       </DialogContent>
     </Dialog>

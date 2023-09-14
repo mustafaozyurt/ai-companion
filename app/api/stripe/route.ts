@@ -22,8 +22,13 @@ export async function GET() {
       },
     });
 
-    if (userSubscription && userSubscription.stripeSubscriptionId) {
-      return new NextResponse(JSON.stringify({ url: settingsUrl }));
+    if (userSubscription && userSubscription.stripeCustomerId) {
+      const stripeSession = await stripe.billingPortal.sessions.create({
+        customer: userSubscription.stripeCustomerId,
+        return_url: settingsUrl,
+      })
+
+      return new NextResponse(JSON.stringify({ url: stripeSession.url }))
     }
 
     const stripeSession = await stripe.checkout.sessions.create({
@@ -55,7 +60,9 @@ export async function GET() {
       },
     });
 
-    return new NextResponse(JSON.stringify({ url: settingsUrl }));
+    console.log(JSON.stringify({ url: stripeSession.url }));
+
+    return new NextResponse(JSON.stringify({ url: stripeSession.url }));
   } catch (error) {
     console.error("[STRIPE_GET]", error);
     return new NextResponse("Internal Error", { status: 500 });
