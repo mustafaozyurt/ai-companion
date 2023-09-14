@@ -64,12 +64,9 @@ export const ProModal = () => {
             9<span className="text-sm font-normal">.99$ / mo</span>
           </p>
 
-          <Button
-            disabled={loading}
-            variant={"premium"}
-            children={"Subscribe"}
-            onClick={onSubscribe}
-          />
+          <Button variant="premium" disabled={loading} onClick={onSubscribe}>
+            Subscribe
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
