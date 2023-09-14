@@ -42,7 +42,7 @@ const SearchInput = () => {
 
   return (
     <div>
-      <Search className="absolute top-7 left-24 h-4 w-4" />
+      <Search className="absolute top-7 left-11 md:left-24 h-4 w-4" />
       <Input
         value={value}
         onChange={onChange}

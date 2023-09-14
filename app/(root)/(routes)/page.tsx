@@ -34,7 +34,7 @@ export default async function RootPage({ searchParams }: RootPageProps) {
 
   return (
     <div className="relative">
-      <div className="p-4 px-20">
+      <div className="p-4 px-8 md:px-20">
         <SearchInput />
         <Categories data={categories} />
         <Companions data={data} />
